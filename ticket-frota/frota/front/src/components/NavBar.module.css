@@ -13,24 +13,24 @@ nav a {
     cursor: pointer;
   }
   
-  .navbar {
-    display: flex;
-    width: 100%;
-    height: auto;
-    padding: 5px;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 10px;
-    flex-shrink: 0;
-    background: #F21326;
-  }
-  .opcoes {
-    color: #fff;
-    text-align: center;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    .navbar {
+      display: flex;
+      width: 100%;
+      height: auto;
+      padding: 5px;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 10px;
+      flex-shrink: 0;
+      background: #F21326;
+    }
+    .opcoes {
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
     display: flex;
     padding: 5px;
     margin: 0 5px;

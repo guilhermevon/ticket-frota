@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import PropTypes from "prop-types";
 
 const BotaoAlterna = ({ options, onChange, name, text, posicao }) => {
@@ -8,12 +7,16 @@ const BotaoAlterna = ({ options, onChange, name, text, posicao }) => {
       "Aviso: A propriedade 'posicao' deve ser 'Vertical' ou 'Horizontal'."
     );
   }
+
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-    onChange(option);
+    if (onChange) {
+      onChange(option);
+    }
   };
+
   return (
     <div>
       <label htmlFor={name}>{text}:</label>
@@ -33,7 +36,17 @@ const BotaoAlterna = ({ options, onChange, name, text, posicao }) => {
     </div>
   );
 };
+
 BotaoAlterna.propTypes = {
-  posicao: PropTypes.string.isRequired, // posicao é obrigatório
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func,
+  name: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  posicao: PropTypes.oneOf(["Vertical", "Horizontal"]).isRequired,
 };
+
+BotaoAlterna.defaultProps = {
+  onChange: () => {},
+};
+
 export default BotaoAlterna;

@@ -10,7 +10,7 @@ const Input = ({
     maxLength,
   }) => {
     return (
-      <div style={{ marginBottom: "10px", color: "#163047" }}>
+      <div style={{ marginBottom: "10px", color: "#163047"}}>
         {text && <label htmlFor={name}>{text}:</label>}
         <input
           type={type}
@@ -23,6 +23,7 @@ const Input = ({
           onInput={onInput}
           maxLength={maxLength}
           className="inp_padrao"
+          //style={{width: "204px"}}
           multiple
         />
       </div>

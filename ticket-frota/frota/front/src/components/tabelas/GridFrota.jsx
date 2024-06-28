@@ -6,48 +6,52 @@ import setaAzulDireita from "../../../imagens/setaAzulDireita@2x.svg"; // Certif
 const GridFrota = ({ dados }) => {
   const [date, setDate] = useState([]); // Estado para armazenar os dados da requisição
 
-  useEffect(() => {
-    setDate(dados);
-  }, [dados]);
-
   // Cabeçalho da tabela
   const colunas = React.useMemo(
     () => [
       {
-        Header: "Código do Veículo",
-        accessor: "codigo_veiculo", // Nome da propriedade de dados correspondente
+        Header: "N° Ordem",
+        accessor: "numero_ordem", // Nome da propriedade de dados correspondente
       },
       {
-        Header: "Modelo",
-        accessor: "modelo",
+        Header: "Base",
+        accessor: "base",
       },
       {
-        Header: "Marca",
-        accessor: "marca",
+        Header: "Setor",
+        accessor: "setor",
       },
       {
-        Header: "Placa",
-        accessor: "placa",
+        Header: "Criticidade",
+        accessor: "criticidade",
       },
       {
-        Header: "Ano",
-        accessor: "ano",
+        Header: "Tipo de Solicitacao",
+        accessor: "tipo_solicitacao",
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Data Solicitação",
+        accessor: "data_solicitação",
       },
       {
-        Header: "Alterar status",
-        accessor: (row) => {
-          return (
-            <img
-              src={setaAzulDireita}
-              alt="Imagem"
-              onClick={() => alterarStatus(row)}
-            />
-          );
-        },
+        Header: "Data Entrega",
+        accessor: "data_entrega",
+      },
+      {
+        Header: "Placa / Tipo de Veiculo",
+        accessor: "placa_tipo_veiculo",
+      },
+      {
+        Header: "Defeito",
+        accessor: "defeito",
+      },
+      {
+        Header: "Etapa",
+        accessor: "etapa",
+      },
+      {
+        Header: "Orçamento",
+        accessor: "orcamento",
       },
     ],
     []

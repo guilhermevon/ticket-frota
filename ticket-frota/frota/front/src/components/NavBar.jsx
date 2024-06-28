@@ -3,6 +3,7 @@ import Styles from "./NavBar.module.css";
 import Solicitacao from "../pages/Solicitacao";
 import CadastroOrdem from "../pages/CadastroOrdem";
 import GridFrota from "../components/tabelas/GridFrota";
+import ConsultarMan from "../pages/ConsultarMan";
 import Login from "../pages/Login";
 //import { Link } from "react-router-dom";
 
@@ -24,19 +25,19 @@ const NavBar = ({ nome, tipoUsuario }) => {
 
     return (
       <>
-        <a href="#" className={Styles.opcoes}>
+        <a href="../pages/Login" className={Styles.opcoes}>
           Inicio
         </a>
         <a href="../pages/Solicitacao" className={Styles.opcoes}>
           Solicitação
         </a>
-        <a to="/ConsultarRequisição" className={Styles.opcoes}>
+        <a href="/ConsultarRequisição" className={Styles.opcoes}>
           Revisão e Orçamento
         </a>
-        <a to="/ConsultarRequisição" className={Styles.opcoes}>
+        <a href="/ConsultarRequisição" className={Styles.opcoes}>
           Aprovação
         </a>
-        <a to="/ConsultarRequisição" className={Styles.opcoes}>
+        <a href="/ConsultarRequisição" className={Styles.opcoes}>
           Execução
         </a>
         <a
@@ -65,7 +66,7 @@ const NavBar = ({ nome, tipoUsuario }) => {
           {renderizaNavBarPeloTipoUsuario()}
         </div>
         <div className={Styles.opcoesMenu}>
-          <a to="/" className={Styles.opcoes}>
+          <a href="../pages/Login" className={Styles.opcoes}>
             Sair
           </a>
         </div>
