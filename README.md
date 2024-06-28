@@ -45,6 +45,14 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 - /db: Arquivos para a conexão e configuração do banco de dados.
 - /routes: Definições de rotas da API.
 
+### Iniciando o Servidor mySQL no Debian
+
+   - Id fixo do container mySQL: `????`
+   - Para iniciar o container mySQL cole o comando a seguir:
+ ```
+ docker start ????
+ ``` 
+
 
 ### Configuração
 
