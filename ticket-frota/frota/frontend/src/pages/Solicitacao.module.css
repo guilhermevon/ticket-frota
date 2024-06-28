@@ -1,0 +1,32 @@
+.organizaHorizontal {
+  display: flex;
+  flex-wrap: wrap;
+  width: auto;
+  padding: 10px 0px;
+  justify-content: space-between;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.organizaHorizontal button:first-child {
+  margin-right: auto; /* Coloca o botão "Anterior" à esquerda */
+}
+
+.organizaHorizontal button:last-child {
+  margin-left: auto; /* Coloca o botão "Próximo" à direita */
+}
+
+.container {
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+  margin-bottom: 150px;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.margemDiv {
+    border: 0.5px solid #163047;
+    padding: 10px;
+  }

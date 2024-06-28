@@ -1,0 +1,84 @@
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cabecalho {
+  background: #163047;
+  color: #fff;
+  height: 44px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.th-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.celula {
+  background: #fff;
+  border: 1px solid #ccc;
+  height: 44px;
+  text-align: center;
+  padding: 0 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.pagination button:disabled {
+  background-color: #ccc;
+  color: #666;
+  border: 1px solid #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  margin: 0 8px;
+  font-size: 14px;
+}
+
+.pageInput {
+  width: 50px;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #163047;
+  border-radius: 5px;
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    display: block;
+  }
+  .cabecalho {
+    height: 20px;
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .celula {
+    height: 20px;
+    padding: 3px;
+  }
+}
+/* Adicione o estilo para tornar o cabeçalho sticky */
+.th-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1; /* Garante que o cabeçalho fique acima do conteúdo ao rolar */
+}
