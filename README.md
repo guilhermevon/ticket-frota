@@ -21,13 +21,15 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 2. Clone este repositório:
 
    ```bash
-   git clone https://github.com/seuusuario/backend-aplicacao.git
+   git clone https://github.com/seuusuario/ticket-frota-aplicacao.git
    ```
 
 3. Navegue até a pasta do projeto:
 
    ```bash
-   cd backend
+   cd ticket-frota
+   cd frota
+   cd front
    ```
 
 4. Instale as depencencias:
@@ -42,9 +44,7 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 
 - /db: Arquivos para a conexão e configuração do banco de dados.
 - /routes: Definições de rotas da API.
-- server.js: Arquivo principal do servidor.
-- ecosystem.config.js: Arquivo de configuração do PM2.(no servidor Debian não é mais utilizado o PM2)
-- service.js: Arquivo com a tentativa de criar um serviço para o Windows.
+
 
 ### Configuração
 
