@@ -12,19 +12,13 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 
 ## Instalação
 
-1. Instale o pm2 na maquina
-
-   ```bash
-   npm install pm2@latest -g
-   ```
-
-2. Clone este repositório:
+1. Clone este repositório:
 
    ```bash
    git clone https://github.com/seuusuario/ticket-frota-aplicacao.git
    ```
 
-3. Navegue até a pasta do projeto:
+2. Navegue até a pasta do projeto:
 
    ```bash
    cd ticket-frota
@@ -32,13 +26,13 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
    cd front
    ```
 
-4. Instale as depencencias:
+3. Instale as depencencias:
 
    ```bash
    npm i
    ```
 
-5. Faça as configurações no arquivo dbConfig.js para a conexão com o banco de dados MySQL
+4. Faça as configurações no arquivo dbConfig.js para a conexão com o banco de dados MySQL
 
 ### Estrutura de arquivos
 
