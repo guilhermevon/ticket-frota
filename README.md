@@ -41,10 +41,10 @@ Certifique-se de que você tenha as seguintes ferramentas instaladas em sua máq
 
 ### Iniciando o Servidor mySQL no Debian
 
-   - Id fixo do container mySQL: `????`
+   - Provável Id fixo do container mySQL: `2677841935ed`
    - Para iniciar o container mySQL cole o comando a seguir:
  ```
- docker start ????
+ docker start 2677841935ed
  ``` 
 
 
