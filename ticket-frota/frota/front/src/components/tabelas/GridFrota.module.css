@@ -14,8 +14,8 @@
 }
 
 .cabecalho {
-  background: transparent;
-  color: #F21326;
+  background: #F21326;
+  color: white;
   height: 44px;
   padding: 10px;
   justify-content: center;

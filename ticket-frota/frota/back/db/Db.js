@@ -14,7 +14,7 @@ async function connectToDatabase() {
         console.log("Conectado ao banco de dados MySQL");
         resolve(connection);
       }
-    });
+    }); 
   });
 }
 

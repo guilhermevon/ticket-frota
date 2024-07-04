@@ -5,7 +5,7 @@ import Styles from "../pages/Solicitacao.module.css";
 import Select from "../components/form/Select";
 
 const ConsultarMan = () => {
-  //const [filters, setFilters] = useState([]); //estado para armazenar os filtros da tabela de manutenções
+  const [filters, setFilters] = useState([]);
   const bases = [
     { value: "Betim", label: "Betim" },
     { value: "Sete Lagoas", label: "Sete Lagoas" },
@@ -37,7 +37,7 @@ const ConsultarMan = () => {
         <h1>Manutenções Pendentes</h1>
         <div className={Styles.organizaHorizontal}>
           <Select text="Base" placeholder="Base" options={bases} />
-          <Input text="Setor*" placeholder="Setor" />
+
           <Select
             text="Criticidade*"
             placeholder="Criticidade"
@@ -52,7 +52,7 @@ const ConsultarMan = () => {
           <Input type="date" text="Data Entrega" />
           <Select text="Etapa" placeholder="Etapa" options={etapa} />
         </div>
-        <GridFrota />
+        <GridFrota filters={filters} />
       </form>
     </>
   );

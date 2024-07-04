@@ -13,7 +13,13 @@ const BotaoAlterna = ({ options, onChange, name, text, posicao }) => {
   const handleOptionChange = (option) => {
     setSelectedOption(option);
     if (onChange) {
-      onChange(option);
+      const event = {
+        target: {
+          name,
+          value: option,
+        },
+      };
+      onChange(event); 
     }
   };
 
@@ -25,7 +31,7 @@ const BotaoAlterna = ({ options, onChange, name, text, posicao }) => {
           <label key={option}>
             <input
               type="radio"
-              value={selectedOption === option ? option : ""}
+              value={option}
               checked={selectedOption === option}
               onChange={() => handleOptionChange(option)}
             />

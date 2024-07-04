@@ -1,61 +1,116 @@
 import { useTable, usePagination } from "react-table";
-import styles from "./GridFrota.module.css"; // Certifique-se de criar este arquivo CSS
+import styles from "./GridFrota.module.css";
 import React, { useEffect, useState } from "react";
-import setaAzulDireita from "../../../imagens/setaAzulDireita@2x.svg"; // Certifique-se de ter esta imagem ou substitua pelo caminho correto
+import setaAzulDireita from "../../../imagens/setaAzulDireita@2x.svg";
 
-const GridFrota = ({ dados }) => {
-  const [date, setDate] = useState([]); // Estado para armazenar os dados da requisição
+const GridFrota = ({ dados, filters }) => {
+  const [date, setDate] = useState([]);
 
-  // Cabeçalho da tabela
   const colunas = React.useMemo(
     () => [
-      {
-        Header: "N° Ordem",
-        accessor: "numero_ordem", // Nome da propriedade de dados correspondente
-      },
-      {
-        Header: "Base",
-        accessor: "base",
-      },
-      {
-        Header: "Setor",
-        accessor: "setor",
-      },
-      {
-        Header: "Criticidade",
-        accessor: "criticidade",
-      },
-      {
-        Header: "Tipo de Solicitacao",
-        accessor: "tipo_solicitacao",
-      },
-      {
-        Header: "Data Solicitação",
-        accessor: "data_solicitação",
-      },
-      {
-        Header: "Data Entrega",
-        accessor: "data_entrega",
-      },
-      {
-        Header: "Placa / Tipo de Veiculo",
-        accessor: "placa_tipo_veiculo",
-      },
-      {
-        Header: "Defeito",
-        accessor: "defeito",
-      },
-      {
-        Header: "Etapa",
-        accessor: "etapa",
-      },
-      {
-        Header: "Orçamento",
-        accessor: "orcamento",
-      },
+      { Header: "N° Ordem", accessor: "num_ordem" },
+      { Header: "Base", accessor: "base" },
+      { Header: "Setor", accessor: "setor" },
+      { Header: "Criticidade", accessor: "criticidade" },
+      { Header: "Tipo de Solicitacao", accessor: "tipo_solicitacao" },
+      { Header: "Data Solicitação", accessor: "data_solicitação", Cell: ({ cell: { value } }) => formatDate(value),},
+      { Header: "Data Entrega", accessor: "data_entrega", Cell: ({ cell: { value } }) => formatDate(value), },
+      { Header: "Placa / Tipo de Veiculo", accessor: "placa_veiculo" },
+      { Header: "Defeito", accessor: "defeito" },
+      { Header: "Etapa", accessor: "etapa" },
+      { Header: "Orçamento", accessor: "orcamento" },
     ],
     []
   );
+
+  const formatDate = (data) => {
+    return format(new Date(data), "dd/MM/yyyy"); //exibir data formatada
+  };
+
+  useEffect(() => {
+    filtrarDados();
+  }, [dados, filters]); // Adiciona dependências para useEffect
+
+  const filtrarDados = () => {
+    if (!dados) return;
+
+    let dadosFiltrados = dados;
+
+    if (filters) {
+      if (filters.num_ordem) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.num_ordem &&
+            item.num_ordem.toString().includes(filters.num_ordem)
+        );
+      }
+      if (filters.base) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) => item.base && item.base.toString().includes(filters.base)
+        );
+      }
+      if (filters.setor) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) => item.setor && item.setor.toString().includes(filters.setor)
+        );
+      }
+      if (filters.criticidade) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.criticidade &&
+            item.criticidade.toString().includes(filters.criticidade)
+        );
+      }
+      if (filters.tipo_solicitacao) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.tipo_solicitacao &&
+            item.tipo_solicitacao.toString().includes(filters.tipo_solicitacao)
+        );
+      }
+      if (filters.data_solicitacao) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.data_solicitacao &&
+            item.data_solicitacao.toString().includes(filters.data_solicitacao)
+        );
+      }
+      if (filters.data_entrega) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.data_entrega &&
+            item.data_entrega.toString().includes(filters.data_entrega)
+        );
+      }
+      if (filters.placa_veiculo) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.placa_veiculo &&
+            item.placa_veiculo.toString().includes(filters.placa_veiculo)
+        );
+      }
+      if (filters.defeito) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.defeito && item.defeito.toString().includes(filters.defeito)
+        );
+      }
+      if (filters.etapa) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) => item.etapa && item.etapa.toString().includes(filters.etapa)
+        );
+      }
+      if (filters.orcamento) {
+        dadosFiltrados = dadosFiltrados.filter(
+          (item) =>
+            item.orcamento &&
+            item.orcamento.toString().includes(filters.orcamento)
+        );
+      }
+    }
+
+    setDate(dadosFiltrados);
+  };
 
   const semDados = date ? date.length === 0 : true;
 
@@ -78,7 +133,7 @@ const GridFrota = ({ dados }) => {
       data: date || [],
       initialState: { pageIndex: 0, pageSize: 10 },
     },
-    usePagination // Adiciona funcionalidade de paginação
+    usePagination
   );
 
   return (
@@ -135,12 +190,12 @@ const GridFrota = ({ dados }) => {
             value={pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(page); // Altere setPageIndex para gotoPage
+              gotoPage(page);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                gotoPage(page); // Altere setPageIndex para gotoPage
+                gotoPage(page);
               }
             }}
             style={{ width: "50px", textAlign: "center" }}

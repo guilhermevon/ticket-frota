@@ -18,7 +18,7 @@ const CadastroOrdem = () => {
     atividade_custo: null,
     empresa: null,
     departamento: null,
-    numero_ordem: null,
+    num_ordem: null,
     cc: null,
     fornecedor: null,
     cnpj: null,
@@ -57,7 +57,7 @@ const CadastroOrdem = () => {
       atividade_custo: formData.atividade_custo,
       empresa: formData.empresa,
       departamento: formData.departamento,
-      numero_ordem: formData.numero_ordem,
+      num_ordem: formData.num_ordem,
       cc: formData.cc,
       fornecedor: formData.fornecedor,
       cnpj: formData.cnpj,
@@ -81,8 +81,8 @@ const CadastroOrdem = () => {
       formData.empresa === "" ||
       formData.departamento === null ||
       formData.departamento === "" ||
-      formData.numero_ordem === null ||
-      formData.numero_ordem === "" ||
+      formData.num_ordem === null ||
+      formData.num_ordem === "" ||
       formData.cc === null ||
       formData.cc === "" ||
       formData.fornecedor === null ||
@@ -95,12 +95,16 @@ const CadastroOrdem = () => {
       formData.nota_fiscal === "" ||
       formData.recorrencia_ordem === null ||
       formData.recorrencia_ordem === "" ||
+      formData.data_competencia === null ||
+      formData.data_competencia === "" ||
       formData.data_vencimento === null ||
       formData.data_vencimento === "" ||
       formData.dados_pagamento === null ||
       formData.dados_pagamento === "" ||
       formData.criticidade === null ||
       formData.criticidade === "" ||
+      formData.ordem_paga === null ||
+      formData.ordem_paga === "" ||
       formData.valor === null ||
       formData.valor === "" ||
       formData.obs === null ||
@@ -119,30 +123,32 @@ const CadastroOrdem = () => {
         <div className={Styles.organizaHorizontal}>
           <Input
             text="Atividade/Descritivo Custo*"
+            name="atividade_custo"
             placeholder="Descrição de Custo"
           />
-          <Input text="Empresa" placeholder="N° Laudo" />
+          <Input text="Empresa" name="empresa" placeholder="N° Laudo" />
           <Select
             text="Departamento"
+            name="departamento"
             options={["Selecione uma opção", "Betim", "Sete Lagoas"]}
             placeholder="Nome do Departamento*"
           />
-          <Input text="N°Ordem*" placeholder="N° Ordem Pagamento" />
+          <Input text="N°Ordem*" name="num_ordem" placeholder="N° Ordem Pagamento" />
         </div>
         <div className={Styles.organizaHorizontal}>
-          <Input text="CC*" placeholder="N° CC" />
-          <Input text="Fornecedor*" placeholder="Nome do Fornecedor" />
-          <Input text="CNPJ*" placeholder="Número de CNPJ" />
-          <Input text="TOVS*" placeholder="Código TOVS" />
-          <InputPesquisa text="Nota Fiscal*" placeholder="N° Nota Fiscal" />
+          <Input text="CC*" name="cc" placeholder="N° CC" />
+          <Input text="Fornecedor*" name="fornecedor" placeholder="Nome do Fornecedor" />
+          <Input text="CNPJ*" name="cnpj" placeholder="Número de CNPJ" />
+          <Input text="TOVS*" name="cod_tovs" placeholder="Código TOVS" />
+          <InputPesquisa text="Nota Fiscal*" name="nota_fiscal" placeholder="N° Nota Fiscal" />
         </div>
         <div className={Styles.organizaHorizontal}>
-          <Select text="Recorrência de Ordem*" options={ordem} />
-          <Input type="date" text="Data de Vencimento" />
-          <Input type="date" text="Data de Competência" />
+          <Select text="Recorrência de Ordem*" name="recorrencia_ordem" options={ordem} />
+          <Input type="date" name="data_vencimento" text="Data de Vencimento" />
+          <Input type="date" name="data_competencia" text="Data de Competência" />
 
-          <Select text="Dados de Pagamento*" options={dadosPagemento} />
-          <Select text="Criticidade*" options={criticidade} />
+          <Select text="Dados de Pagamento*" name="dados_pagamento" options={dadosPagemento} />
+          <Select text="Criticidade*" name="criticidade" options={criticidade} />
         </div>
         <div className={Styles.organizaHorizontal}>
           <Select

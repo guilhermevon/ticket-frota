@@ -5,6 +5,7 @@ import Select from "../components/form/Select";
 import Styles from "./Solicitacao.module.css";
 import BotaoPequeno from "../components/form/BotaoPequeno";
 import BotaoAlterna from "../components/form/BotaoAlterna";
+import axios from "axios";
 
 const Solicitacao = () => {
   const videoRef = useRef(null);
@@ -24,13 +25,14 @@ const Solicitacao = () => {
     veiculo_parado: null,
     matricula_solicitanete: null,
     nome_solicitante: null,
-    funcao: null,
     data_solicitacao: null,
     base: null,
-    registro_foto: capturarImagem,
+    //registro_foto: capturarImagem,
+    tipo_solicitacao: null,
+    tipo_veiculo: null,
   });
 
-  const startVideo = async () => {
+  /*const startVideo = async () => {
     setVideoEnabled(true);
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
@@ -44,7 +46,7 @@ const Solicitacao = () => {
     }
   };
 
-  const capturarFoto = async () => {
+  /*const capturarFoto = async () => {
     if (!videoRef.current) {
       console.error("O elemento de vídeo não está definido.");
       return;
@@ -84,7 +86,7 @@ const Solicitacao = () => {
     return () => {
       stopVideo();
     };
-  }, []);
+  }, []);*/
 
   const fecharModalStepper = () => {
     setModalStepper(false);
@@ -94,7 +96,22 @@ const Solicitacao = () => {
     setModalStepper(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSelectChange = (selectedOption) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      base: selectedOption.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     const requestData = {
       placa_veiculo: formData.placa_veiculo,
       quilometragem: formData.quilometragem,
@@ -102,10 +119,11 @@ const Solicitacao = () => {
       veiculo_parado: formData.veiculo_parado,
       matricula_solicitanete: formData.matricula_solicitanete,
       nome_solicitante: formData.nome_solicitante,
-      funcao: formData.funcao,
       data_solicitacao: formData.data_solicitacao,
       base: formData.base,
-      registro_foto: formData.registro_foto,
+      //registro_foto: formData.registro_foto,
+      tipo_solicitacao: formData.tipo_solicitacao,
+      tipo_veiculo: formData.tipo_veiculo,
     };
 
     e.preventDefault();
@@ -123,23 +141,34 @@ const Solicitacao = () => {
       formData.matricula_solicitanete === "" ||
       formData.nome_solicitante === null ||
       formData.nome_solicitante === "" ||
-      formData.funcao === null ||
-      formData.funcao === "" ||
       formData.data_solicitacao === null ||
       formData.data_solicitacao === "" ||
       formData.base === null ||
       formData.base === "" ||
-      formData.registro_foto === null ||
-      formData.registro_foto === ""
+      //formData.registro_foto === null ||
+      //formData.registro_foto === "" ||
+      formData.tipo_solicitacao === null ||
+      formData.tipo_solicitacao === "" ||
+      formData.tipo_veiculo === null ||
+      formData.tipo_veiculo === ""
     );
     {
-      alert("Preencha todos os campos");
-      return;
+      //alert("Preencha todos os campos");
+      // return;
     }
 
-    startVideo();
+    try {
+      const response = await axios.post('http://localhost:3001/solicitacao', formData);
+      console.log("Form Data:", response.data);
+      alert("Solicitação criada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao enviar solicitação:", error);
+      alert("Erro ao criar solicitação");
+    }
 
-    abrirModalStepper();
+    console.log("Form Data:", formData);
+    //startVideo();
+    //abrirModalStepper();
   };
 
   return (
@@ -150,50 +179,86 @@ const Solicitacao = () => {
             <h1>Solicitação de Manutenção de Veículo</h1>
           </div>
           <div className={Styles.organizaHorizontal}>
-            <InputPesquisa text="Placa do Veiculo*" placeholder="N° da Placa" />
-            <Input text="Tipo do Veiculo*" placeholder="Tipo do Veículo" />
-            <Select text="Base*" options={bases} />
-            <Input text="N° Ordem*" placeholder="N° Ordem Solicitação" />
+            <InputPesquisa
+              text="Placa do Veiculo*"
+              name="placa_veiculo"
+              placeholder="N° da Placa"
+              onChange={handleChange}
+            />
+            <Input
+              text="Tipo do Veiculo*"
+              name="tipo_veiculo"
+              placeholder="Tipo do Veículo"
+              onChange={handleChange}
+            />
+            <Select
+              text="Base*"
+              name="base"
+              options={bases}
+              onChange={handleChange}
+            />
+            <Input
+              text="N° Ordem*"
+              name="numero_ordem"
+              placeholder="N° Ordem Solicitação"
+              onChange={handleChange}
+            />
           </div>
           <div className={Styles.organizaHorizontal}>
-            <Input text="KM do veículo*" placeholder="N° KM" />
-            <Input text="Defeito Macro*" placeholder="Localização do Defeito" />
+            <Input
+              text="KM do veículo*"
+              name="quilometragem"
+              placeholder="N° KM"
+              onChange={handleChange}
+            />
+            <Input
+              text="Defeito Macro*"
+              name="defeito"
+              placeholder="Localização do Defeito"
+              onChange={handleChange}
+            />
             <BotaoAlterna
               options={["Sim", "Não"]}
               name="veiculo_parado"
               text="Veículo parado?*"
               posicao="Horizontal"
+              onChange={handleChange}
             />
             <InputPesquisa
               text="Matricula do Solicitante*"
               placeholder="Matricula"
+              name="matricula_solicitanete"
+              onChange={handleChange}
             />
           </div>
           <div className={Styles.organizaHorizontal}>
-            <Input text="Nome do Solicitante*" placeholder="Nome" />
+            <Input
+              text="Nome do Solicitante*"
+              placeholder="Nome"
+              name="nome_solicitante"
+              onChange={handleChange}
+            />
             <Input
               type="date"
               text="Data da Solicitação*"
-              name="data_retirada"
+              name="data_solicitacao"
               placeholder={"dd/mm/aaaa"}
+              onChange={handleChange}
             />
             <BotaoAlterna
               options={["Preventivo", "Corretivo"]}
               text="Tipo de Solicitação*"
+              name="tipo_solicitacao"
               placeholder="Preventivo/Correntivo"
               posicao="Horizontal"
-            />
-            <BotaoAlterna
-              options={["Preventivo", "Corretivo"]}
-              text="Tipo de Solicitação*"
-              placeholder="Preventivo/Correntivo"
-              posicao="Horizontal"
+              onChange={handleChange}
             />
           </div>
           <div className={Styles.organizaHorizontal}>
             <BotaoPequeno text="Cancelar" cor="Vermelho" />
-            <BotaoPequeno
+            {/*<BotaoPequeno
               cor="Azul"
+              name="registro_foto"
               text="Tirar Foto"
               onClick={(e) => {
                 e.preventDefault();
@@ -201,12 +266,13 @@ const Solicitacao = () => {
                 setCapturarImagem(null);
                 stopVideo();
               }}
-            />
+              onChange={handleChange}
+            />*/}
             <BotaoPequeno text="Adicionar" cor="Azul" type="submit" />
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <video
+          {/*<video
             ref={videoRef}
             width="660"
             height="430"
@@ -216,15 +282,15 @@ const Solicitacao = () => {
               display: videoEnabled ? "block" : "none",
               marginTop: "10px",
             }}
-          />
+          />*/}
         </div>
       </form>
 
-      {capturarImagem && (
+      {/*capturarImagem && (
         <div style={{ display: "flex", justifyContent: "center" }}>
           <img src={capturarImagem} alt="Foto do Colaborador" />
         </div>
-      )}
+      )*/}
     </>
   );
 };

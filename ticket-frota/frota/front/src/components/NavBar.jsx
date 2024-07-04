@@ -27,7 +27,7 @@ const NavBar = ({ nome, tipoUsuario }) => {
       <>
         <a href="../pages/Login" className={Styles.opcoes}>
           Inicio
-        </a>
+        </a>  
         <a href="../pages/Solicitacao" className={Styles.opcoes}>
           Solicitação
         </a>
@@ -71,7 +71,7 @@ const NavBar = ({ nome, tipoUsuario }) => {
           </a>
         </div>
       </nav>
-      <Solicitacao />
+      <Solicitacao   />
     </>
   );
 };
