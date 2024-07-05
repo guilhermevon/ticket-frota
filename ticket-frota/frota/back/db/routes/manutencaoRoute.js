@@ -33,3 +33,61 @@ manuetncoesRouter.get("/", async (req, res) => {
     res.status(500).send("Erro ao consultar o banco de dados");
   }
 });
+
+manuetncoesRouter.post("/create", async (req, res) => {
+  try {
+    const {
+      placa_veiculo,
+      tipo_veiculo,
+      base,
+      num_ordem,
+      quilometragem,
+      defeito,
+      veiculo_parado,
+      matricula_solicitante,
+      nome_solicitante,
+      data_solicitacao,
+      tipo_solicitacao,
+    } = req.body;
+
+    const connection = await connectToDatabase();
+
+    const sqlManutencao = "INSERT INTO manutencao SET ?";
+    const manutencaoValues = {
+      placa_veiculo,
+      tipo_veiculo,
+      base,
+      num_ordem,
+      quilometragem,
+      defeito,
+      veiculo_parado,
+      matricula_solicitante,
+      nome_solicitante,
+      data_solicitacao,
+      tipo_solicitacao,
+    };
+
+    const resultManutencao = await query(
+      connection,
+      sqlManutencao,
+      manutencaoValues
+    )
+
+    const manutencaoId = resultManutencao.insertID
+
+    await query(
+      connection,
+      manutencaoId
+    );
+
+    connection.end();
+
+    res.status(201).json({
+      id: manutencaoId,
+      message: "Manutenção criada com sucesso",
+    });
+  } catch {
+    console.error(err);
+    res.status(500).send("Erro ao criar Manutenção");
+  }
+});

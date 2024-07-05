@@ -1,5 +1,5 @@
 import React, { useState, useEffect, UserContext } from "react";
-//import axios from "axios";
+import axios from "axios";
 import Input from "../components/form/Input";
 import InputPesquisa from "../components/form/InputPesquisa";
 import Select from "../components/form/Select";
@@ -7,12 +7,14 @@ import Styles from "./Solicitacao.module.css";
 import BotaoPequeno from "../components/form/BotaoPequeno";
 import InputGrande from "../components/form/InputGrande";
 import GridFrota from "../components/tabelas/GridFrota";
+//import PortContext from "../../src/context/PortContext"
 
 const CadastroOrdem = () => {
   const [nome, setNome] = useState("");
   const [empresa, setEmpresa] = useState("");
   const [departamento, setDepartamento] = useState("");
   const [fornecedor, setFornecedor] = useState("");
+  const port = PortContext();
 
   const [formData, setFormData] = useState({
     atividade_custo: null,
@@ -112,6 +114,30 @@ const CadastroOrdem = () => {
     ) {
       alert("Preencha todos os campos obrigatórios");
       return;
+    }
+
+    if (requestData) {
+      try {
+        const response = await axios.post(
+          `http://192.168.0.232:${port}/manutencao/create`,
+          requestData
+        );
+        
+        if (response.data) {
+          alert("Requisição criada com sucesso!");
+          navigate("/HomeSupervisor");
+        } else {
+          alert("Erro ao criar requisição!");
+        }
+
+       
+      } catch (error) {
+        // Lidar com erros, exibir mensagens de erro ou realizar ações apropriadas
+        console.error("Erro ao enviar a manutencao:", error);
+      }
+    } else {
+      console.log("Erro carregando o usuario");
+      alert("Algo deu errado, recarregue a página");
     }
   }
 

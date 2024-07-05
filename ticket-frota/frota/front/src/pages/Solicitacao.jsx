@@ -6,12 +6,14 @@ import Styles from "./Solicitacao.module.css";
 import BotaoPequeno from "../components/form/BotaoPequeno";
 import BotaoAlterna from "../components/form/BotaoAlterna";
 import axios from "axios";
+//import PortContext from "../context/PortContext";
 
 const Solicitacao = () => {
   const videoRef = useRef(null);
   const [capturarImagem, setCapturarImagem] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [modalStepper, setModalStepper] = useState(false);
+  //const port = PortContext();
 
   const bases = [
     { value: "Betim", label: "Betim" },
@@ -88,14 +90,6 @@ const Solicitacao = () => {
     };
   }, []);*/
 
-  const fecharModalStepper = () => {
-    setModalStepper(false);
-  };
-
-  const abrirModalStepper = () => {
-    setModalStepper(true);
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -157,18 +151,30 @@ const Solicitacao = () => {
       // return;
     }
 
-    try {
-      const response = await axios.post('http://localhost:3001/solicitacao', formData);
-      console.log("Form Data:", response.data);
-      alert("Solicitação criada com sucesso!");
-    } catch (error) {
-      console.error("Erro ao enviar solicitação:", error);
-      alert("Erro ao criar solicitação");
+    if (requestData) {
+      try {
+        // Enviar a requisição HTTP POST para a rota do servidor
+        const response = await axios.post(
+          `http://192.168.0.232:${port}/solicitacao/create`,
+          requestData
+        );
+       
+        if (response.data) {
+          alert("Requisição criada com sucesso!");
+          navigate("/HomeSupervisor");
+        } else {
+          alert("Erro ao criar requisição!");
+        }
+      } catch (error) {
+        console.error("Erro ao enviar a requisição:", error);
+      }
+    } else {
+      console.log("Erro carregando o usuario");
+      alert("Algo deu errado, recarregue a página");
     }
-
     console.log("Form Data:", formData);
     //startVideo();
-    //abrirModalStepper();
+    //abrirModalStepper();*/
   };
 
   return (

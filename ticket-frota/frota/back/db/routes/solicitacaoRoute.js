@@ -23,7 +23,7 @@ solicitacaoRouter.get("/", async (req, res) => {
   }
 });
 
-solicitacaoRouter.post("/submit", async (req, res) => {
+solicitacaoRouter.post("/create", async (req, res) => {
   const {
     placa_veiculo,
     quilometragem,
