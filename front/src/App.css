@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#root {
+  min-height: 100%;
+  position: relative;
+}
+
+/* Media Query para telas menores (tablets) */
+@media (max-width: 768px) {
+  p {
+    font-size: 16px; /* Apenas um exemplo inicial, colocar configs de tablet aqui*/
+  }
+}
+
+/* Media Query para telas ainda menores (dispositivos móveis) */
+@media (max-width: 480px) {
+  p {
+    font-size: 14px; /* Apenas um exemplo inicial, colocar configs de telefone aqui */
+  }
+}

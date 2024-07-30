@@ -6,26 +6,21 @@ import Styles from "./Solicitacao.module.css";
 import BotaoPequeno from "../components/form/BotaoPequeno";
 import BotaoAlterna from "../components/form/BotaoAlterna";
 import axios from "axios";
-import { format, set } from "date-fns";
-import Modal from "../components/modais/modalFotoDefeito";
+import Modal from "../components/modais/modalFotoDefeito"
 //import PortContext from "../context/PortContext";
 
 const Solicitacao = () => {
   const videoRef = useRef(null);
   const [capturarImagem, setCapturarImagem] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
+  //const [modalStepper, setModalStepper] = useState(false);
+  //const port = PortContext();
   const [modalOpen, setOpenModal] = useState(false);
 
   const bases = [
     { value: "Betim", label: "Betim" },
     { value: "Sete Lagoas", label: "Sete Lagoas" },
   ];
-
-  const formatarData = (data) => {
-    if (data) {
-      return format(new Date(data), "dd/MM/yyyy HH:mm:ss");
-    }
-  };
 
   const [formData, setFormData] = useState({
     placa_veiculo: null,
@@ -40,6 +35,62 @@ const Solicitacao = () => {
     tipo_solicitacao: null,
     tipo_veiculo: null,
   });
+
+  /*const startVideo = async () => {
+    setVideoEnabled(true);
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        videoRef.current.srcObject = stream;
+      } catch (error) {
+        console.error("Error accessing webcam:", error);
+      }
+    }
+  };
+
+  /*const capturarFoto = async () => {
+    if (!videoRef.current) {
+      console.error("O elemento de vídeo não está definido.");
+      return;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+
+    canvas.toBlob(async (blob) => {
+      if (blob) {
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          const imageDataURL = reader.result;
+          setCapturarImagem(imageDataURL);
+        };
+        reader.readAsDataURL(blob);
+      } else {
+        console.error("Failed to capture photo as blob.");
+      }
+    }, "image/jpeg");
+  };
+
+  const stopVideo = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject;
+      const tracks = stream.getTracks();
+      tracks.forEach((track) => track.stop());
+      videoRef.current.srcObject = null;
+      setVideoEnabled(false);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      stopVideo();
+    };
+  }, []);*/
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,9 +150,14 @@ const Solicitacao = () => {
       formData.tipo_veiculo === null ||
       formData.tipo_veiculo === ""
     );
+    {
+      //alert("Preencha todos os campos");
+      // return;
+    }
 
     if (requestData) {
       try {
+        // Enviar a requisição HTTP POST para a rota do servidor
         const response = await axios.post(
           `http://192.168.0.232:${port}/solicitacao/create`,
           requestData
@@ -121,6 +177,8 @@ const Solicitacao = () => {
       alert("Algo deu errado, recarregue a página");
     }
     console.log("Form Data:", formData);
+    //startVideo();
+    //abrirModalStepper();*/
   };
 
   return (
@@ -130,8 +188,6 @@ const Solicitacao = () => {
           <div>
             <h1>Solicitação de Manutenção de Veículo</h1>
           </div>
-          <h2>DATA DE HOJE: {formatarData || "DATA"} </h2>
-          <h2>data de hoje é {formatarData}</h2>
           <div className={Styles.organizaHorizontal}>
             <InputPesquisa
               text="Placa do Veiculo*"
@@ -211,11 +267,41 @@ const Solicitacao = () => {
           <div className={Styles.buttonInline}>
             <BotaoPequeno text="Adicionar" cor="Azul" type="submit" />
             <BotaoPequeno text="Cancelar" cor="Vermelho" />
+            {/*<BotaoPequeno
+              cor="Azul"
+              name="registro_foto"
+              text="Tirar Foto"
+              onClick={(e) => {
+                e.preventDefault();
+                capturarFoto();
+                setCapturarImagem(null);
+                stopVideo();
+              }}
+              onChange={handleChange}
+            />*/}
           </div>
           <Modal isOpen={modalOpen} onClose={() => setOpenModal(false)} />
         </div>
-        <div style={{ display: "flex", justifyContent: "center" }}></div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {/*<video
+            ref={videoRef}
+            width="660"
+            height="430"
+            autoPlay
+            playsInline
+            style={{
+              display: videoEnabled ? "block" : "none",
+              marginTop: "10px",
+            }}
+          />*/}
+        </div>
       </form>
+
+      {/*capturarImagem && (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <img src={capturarImagem} alt="Foto do Colaborador" />
+        </div>
+      )*/}
     </>
   );
 };

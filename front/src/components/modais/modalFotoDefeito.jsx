@@ -1,9 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  UserContext,
+  useRef,
+  forwardRef,
+} from "react";
 import BotaoPequeno from "../form/BotaoPequeno";
 import Styles from "../modais/modalFotoDefeito.module.css";
 
 const ModalFotoDefeito = ({ isOpen, onClose }) => {
-  const [capturarImagem, setCapturarImagem] = useState(null);
+  if (!isOpen) return null;
+  const [capturarImagem, setCapturarImagem] = useState(false);
   const videoRef = useRef(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
 
@@ -39,7 +46,6 @@ const ModalFotoDefeito = ({ isOpen, onClose }) => {
         reader.onloadend = async () => {
           const imageDataURL = reader.result;
           setCapturarImagem(imageDataURL);
-          stopVideo();
         };
         reader.readAsDataURL(blob);
       } else {
@@ -57,14 +63,11 @@ const ModalFotoDefeito = ({ isOpen, onClose }) => {
       setVideoEnabled(false);
     }
   };
-
   useEffect(() => {
     return () => {
       stopVideo();
     };
   }, []);
-
-  if (!isOpen) return null;
 
   return (
     <div className={Styles.modalOverlay}>
@@ -73,11 +76,8 @@ const ModalFotoDefeito = ({ isOpen, onClose }) => {
           <h2>
             <b>FOTO DO DEFEITO DO VEÍCULO</b>
           </h2>
-          <p>
-            Tire foto do defeito do veículo clicando em abrir câmera e após isso
-            clicando em <br /> tirar foto e clique em adicionar para enviar a
-            foto para os gestores da frota{" "}
-          </p>
+          {/*<p>tire foto do defeito do veículo clicando em abrir câmera e após isso clicando em <br/> tirar foto e clique em adicionar para enviar a foto para os gestores da frota </p>*/}
+          <p>Tire foto do defeito do veículo clicando em abrir câmera e após isso clicando em <br/> tirar foto e clique em adicionar para enviar a foto para os gestores da frota </p>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <BotaoPequeno
               cor="Vermelho"
@@ -94,6 +94,8 @@ const ModalFotoDefeito = ({ isOpen, onClose }) => {
               onClick={(e) => {
                 e.preventDefault();
                 capturarFoto();
+                setCapturarImagem(null);
+                stopVideo();
               }}
             />
           </div>
@@ -101,46 +103,37 @@ const ModalFotoDefeito = ({ isOpen, onClose }) => {
             style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "20px",
+              marginTop: "10px",
             }}
           >
-            {videoEnabled && (
-              <video
-                ref={videoRef}
-                width="560"
-                height="470"
-                autoPlay
-                playsInline
-                style={{ display: "block" }}
-              />
-            )}
-            {capturarImagem && (
-              <div>
-                <img
-                  src={capturarImagem}
-                  alt="Foto do Defeito"
-                  style={{
-                    textAlign: "center",
-                    margin: "20px",
-                    width: "305px",
-                    height: "205px",
-                  }}
-                />
-              </div>
-            )}
+            <video
+              ref={videoRef}
+              width="560"
+              height="470"
+              autoPlay
+              playsInline
+              style={{ display: "block" }}
+            />
           </div>
+          {capturarImagem && (
+            <div>
+              <img
+                src={capturarImagem}
+                alt="Foto do Colaborador"
+                style={{
+                  textAlign: "center",
+                  //margin: "20px",
+                  width: "565px",
+                  height: "565px",
+                }}
+              />
+            </div>
+          )}
           <div
             style={{ display: "flex", justifyContent: "flex-end", gap: "21px" }}
           >
             <BotaoPequeno cor="Azul" text="Adicionar" />
-            <BotaoPequeno
-              cor="Vermelho"
-              text="Cancelar"
-              onClick={(e) => {
-                e.preventDefault();
-                onClose();
-              }}
-            />
+            <BotaoPequeno cor="Vermelho" text="Cancelar" />
           </div>
         </form>
       </div>
