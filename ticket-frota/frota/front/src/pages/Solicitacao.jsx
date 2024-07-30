@@ -6,7 +6,7 @@ import Styles from "./Solicitacao.module.css";
 import BotaoPequeno from "../components/form/BotaoPequeno";
 import BotaoAlterna from "../components/form/BotaoAlterna";
 import axios from "axios";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import Modal from "../components/modais/modalFotoDefeito";
 //import PortContext from "../context/PortContext";
 
@@ -15,6 +15,7 @@ const Solicitacao = () => {
   const [capturarImagem, setCapturarImagem] = useState(null);
   const [videoEnabled, setVideoEnabled] = useState(false);
   const [modalOpen, setOpenModal] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const bases = [
     { value: "Betim", label: "Betim" },
@@ -23,9 +24,17 @@ const Solicitacao = () => {
 
   const formatarData = (data) => {
     if (data) {
-      return format(new Date(data), "dd/MM/yyyy HH:mm:ss");
+      return format(data, "dd/MM/yyyy HH:mm:ss");
     }
   };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, []);
 
   const [formData, setFormData] = useState({
     placa_veiculo: null,
@@ -36,7 +45,6 @@ const Solicitacao = () => {
     nome_solicitante: null,
     data_solicitacao: null,
     base: null,
-    //registro_foto: capturarImagem,
     tipo_solicitacao: null,
     tipo_veiculo: null,
   });
@@ -68,12 +76,9 @@ const Solicitacao = () => {
       nome_solicitante: formData.nome_solicitante,
       data_solicitacao: formData.data_solicitacao,
       base: formData.base,
-      //registro_foto: formData.registro_foto,
       tipo_solicitacao: formData.tipo_solicitacao,
       tipo_veiculo: formData.tipo_veiculo,
     };
-
-    e.preventDefault();
 
     if (
       formData.placa_veiculo === null ||
@@ -92,46 +97,41 @@ const Solicitacao = () => {
       formData.data_solicitacao === "" ||
       formData.base === null ||
       formData.base === "" ||
-      //formData.registro_foto === null ||
-      //formData.registro_foto === "" ||
       formData.tipo_solicitacao === null ||
       formData.tipo_solicitacao === "" ||
       formData.tipo_veiculo === null ||
       formData.tipo_veiculo === ""
-    );
-
-    if (requestData) {
-      try {
-        const response = await axios.post(
-          `http://192.168.0.232:${port}/solicitacao/create`,
-          requestData
-        );
-
-        if (response.data) {
-          alert("Requisição criada com sucesso!");
-          navigate("/HomeSupervisor");
-        } else {
-          alert("Erro ao criar requisição!");
-        }
-      } catch (error) {
-        console.error("Erro ao enviar a requisição:", error);
-      }
-    } else {
-      console.log("Erro carregando o usuario");
-      alert("Algo deu errado, recarregue a página");
+    ) {
+      alert("Preencha todos os campos obrigatórios");
+      return;
     }
-    console.log("Form Data:", formData);
+
+    try {
+      const response = await axios.post(
+        `http://192.168.0.232:${port}/solicitacao/create`,
+        requestData
+      );
+
+      if (response.data) {
+        alert("Requisição criada com sucesso!");
+        navigate("/HomeSupervisor");
+      } else {
+        alert("Erro ao criar requisição!");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar a requisição:", error);
+    }
   };
 
   return (
     <>
       <form className={Styles.container} onSubmit={handleSubmit}>
         <div>
-          <div>
+          <div style={{ display: "flex", justifyContent: "space-between"}}>
             <h1>Solicitação de Manutenção de Veículo</h1>
+            <h2>{formatarData(currentTime)}</h2>
           </div>
-          <h2>DATA DE HOJE: {formatarData || "DATA"} </h2>
-          <h2>data de hoje é {formatarData}</h2>
+
           <div className={Styles.organizaHorizontal}>
             <InputPesquisa
               text="Placa do Veiculo*"
@@ -149,7 +149,7 @@ const Solicitacao = () => {
               text="Base*"
               name="base"
               options={bases}
-              onChange={handleChange}
+              onChange={handleSelectChange}
             />
             <Input
               text="N° Ordem*"
